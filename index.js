@@ -41,3 +41,40 @@ function writeToFile(fileName, answers) {
         }
     });
 }
+
+function userPrompt() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What letters do you want? (up to 3)",
+                name: "text",
+            },            
+            {
+                type: "input",
+                message: "Text color? Hex# or keyword",
+                name: "textColor",
+            },
+            {
+                type: "list",
+                message: "What shape we making?",
+                choices: ["Circle","Square"," Triangle"],
+                name: "shape",
+            },
+            {
+                type: "input",
+                message: "In what color? Hex# or keyword",
+                name: "shapeBackgroundColor",
+            },
+        ])
+        .then((answers) => {
+            if (answers.text.length > 3) {
+                console.log("3 letters, milord, not any number AFTER 3");
+                userPrompt();
+            } else {
+                writeToFile("logo.svg", answers);
+            }
+        });
+}
+
+userPrompt();
